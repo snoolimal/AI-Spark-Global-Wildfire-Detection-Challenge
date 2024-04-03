@@ -7,6 +7,7 @@ from config import parse_args
 
 def main():
     args = parse_args()
+
     check = args.check
     seed = args.seed
     threshold = args.threshold
