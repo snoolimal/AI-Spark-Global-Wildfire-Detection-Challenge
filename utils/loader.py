@@ -3,15 +3,14 @@ from typing import Sequence
 from numpy.typing import NDArray
 import numpy as np
 import tifffile as tiff
-from pathlib import Path
-from utils.dir import Dir
 from utils.utils import check_mode
+from utils.dir import Dir
 
 
 class Loader:
-    def __init__(self, mode: str, data_dir: Path = Dir.get_root_dir('data')):
+    def __init__(self, mode: str):
         check_mode(mode)
-        self.data_dir = data_dir
+        self.data_dir = Dir.get_root_dir('data')
         self.mode = mode
 
     def load_mask(self, num: int) -> NDArray[int, ...]:
@@ -21,11 +20,11 @@ class Loader:
 
         :return: HW
         """
-        path = self.data_dir / 'train_mask', f'train_mask_{num}.tif'
+        path = self.data_dir / 'train_mask' / f'train_mask_{num}.tif'
         mask = tiff.imread(str(path))
         return mask
 
-    def load_tif(self, num: int, channel: int | Sequence = None) -> NDArray[int, ...]:
+    def load_tif(self, num: int, channel: Sequence[int] | int = None) -> NDArray[int, ...]:
         """
         반사율을 픽셀값으로 갖는 이미지를 반환한다.
         반사율은 [0, 1]도, [0, 255]의 범위도 아니고 그냥 지멋대로다.

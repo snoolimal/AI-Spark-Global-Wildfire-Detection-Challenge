@@ -1,9 +1,12 @@
 import logging
+from utils.dir import Dir
 
 
-def setup_logger(save_path: str, name: str, debug: bool = False) -> logging.Logger:
+def setup_logger(fdname: str, debug: bool = False) -> logging.Logger:
+    name = 'train_log' if not debug else 'debug_log'
+    name = f'{fdname}_' + name
     logger = logging.getLogger(name)
-    logger.setLevel(logging.INFO)  # DEBUG-INFO-WARNING-ERROR-CRITICAL
+    logger.setLevel(logging.INFO)   # DEBUG-INFO-WARNING-ERROR-CRITICAL
 
     console_handler = logging.StreamHandler()
     console_handler.setLevel(logging.INFO)
@@ -12,6 +15,9 @@ def setup_logger(save_path: str, name: str, debug: bool = False) -> logging.Logg
     console_handler.setFormatter(console_formatter)
     logger.addHandler(console_handler)
 
+    D = Dir(fdname)
+    save_dir = Dir.get_root_dir('log')
+    save_path = D.get_save_path(sdir=save_dir, sname=name, suf='txt')
     file_handler = logging.FileHandler(save_path)
     if not debug:
         file_handler.setLevel(logging.INFO)
@@ -28,4 +34,3 @@ def setup_logger(save_path: str, name: str, debug: bool = False) -> logging.Logg
 class _InfoFilter(logging.Filter):
     def filter(self, record):
         return record.levelno == logging.INFO
-

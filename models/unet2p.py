@@ -3,7 +3,7 @@ import torch.nn as nn
 import segmentation_models_pytorch as smp
 
 
-class UNet2P(nn.Module):
+class UN2P(nn.Module):
     def __init__(self, **config):
         super().__init__()
 
@@ -32,7 +32,8 @@ class UNet2P(nn.Module):
         if check_size:
             print(output.size())    # [B, 1, H, W]
         else:
+            # print(model)
             return output
 
 
-UNet2P.check()  # [B=10, C=1, H=256, W=256]
+# UN2P.check()  # [B=10, C=1, H=256, W=256]
